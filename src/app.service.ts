@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { join } from 'path';
 import { JoinColumn, Repository } from 'typeorm';
 import { konfiguracje, uzytkownicy, zamowienia } from './typeorm';
 
@@ -10,11 +9,13 @@ export class AppService {
   }
   getAll(): Promise<uzytkownicy[]>{
     return this.usersRespository.find({
-      relations : ['zamowienia']
-    }); 
+      relations : ['zamowienia'] 
+    });
+  }
+  
 
 
-    }
+    
     async getOneById(id: number) : Promise<uzytkownicy>{
       try{
         const user = await this.usersRespository.findOneOrFail(id);
@@ -32,6 +33,7 @@ export class AppService {
       user.imie = imie;
       user.nazwisko= nazwisko;
       user.haslo = haslo;
+      user.email = email;
       user.typ = typ;
       return this.usersRespository.save(user);
     }
